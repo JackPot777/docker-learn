@@ -1,0 +1,1022 @@
+docket info
+docker version
+docker images
+
+docker run busybox:1.24 echo "hello world" (docker run app:tags command)
+
+root@arbaz:~/Desktop/docker-learning# docker run busybox:1.24 ls
+bin
+dev
+etc
+home
+proc
+root
+sys
+tmp
+usr
+var
+
+
+(-i = interactive mode, -d = detach mode(run in bg), -t = takes stdin and stdout lib)
+
+root@arbaz:~/Desktop/docker-learning# docker run -i -t busybox:1.24
+/ # ls
+bin   dev   etc   home  proc  root  sys   tmp   usr   var
+/ # touch arbaz.txt
+/ # ls
+arbaz.txt  bin        dev        etc        home       proc       root       sys        tmp        usr        var
+/ # exit
+root@arbaz:~/Desktop/docker-learning# docker run -i -t busybox:1.24
+/ # ls
+bin   dev   etc   home  proc  root  sys   tmp   usr   var
+/ #
+
+
+root@arbaz:~/Desktop/docker-learning# docker run -d busybox:1.24 sleep 100
+04cb0ec8e03fa614db08d86868a4f17d1920249036dac214104aefd1e7f34952
+root@arbaz:~/Desktop/docker-learning# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+04cb0ec8e03f        busybox:1.24        "sleep 100"         18 seconds ago      Up 17 seconds                           grave_euclid
+root@arbaz:~/Desktop/docker-learning# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                     PORTS               NAMES
+04cb0ec8e03f        busybox:1.24        "sleep 100"              56 seconds ago      Up 54 seconds                                  grave_euclid
+965ccb2512c4        busybox:1.24        "sh"                     2 minutes ago       Exited (0) 2 minutes ago                       mad_ritchie
+fe68095e9bf7        busybox:1.24        "sh"                     3 minutes ago       Exited (0) 2 minutes ago                       thirsty_ride
+026207b280de        busybox:1.24        "ls /"                   5 minutes ago       Exited (0) 5 minutes ago                       trusting_hawking
+b5924c390131        busybox:1.24        "ls"                     5 minutes ago       Exited (0) 5 minutes ago                       admiring_varahamihira
+ba38dc77c54e        busybox:1.24        "echo 'hello world'"     6 minutes ago       Exited (0) 6 minutes ago                       stupefied_euler
+8e783ce4b1e8        busybox:1.24        "echo 'hello world'"     6 minutes ago       Exited (0) 6 minutes ago                       compassionate_lumiere
+5c08f19ede80        fuzzapi_web         "bundle exec rails se"   8 minutes ago       Exited (0) 8 minutes ago                       sharp_keller
+77d3a7b1491e        fuzzapi_web         "bundle exec rails se"   10 minutes ago      Exited (0) 8 minutes ago                       sleepy_payne
+694bab172af6        fuzzapi_web         "bundle exec rails se"   3 months ago        Exited (0) 3 months ago                        fuzzapi_web_1
+a53896c77c66        fuzzapi_sidekiq     "bundle exec sidekiq "   3 months ago        Exited (0) 3 months ago                        fuzzapi_sidekiq_1
+6d51ceb1b1dd        redis               "docker-entrypoint.sh"   3 months ago        Exited (0) 3 months ago                        fuzzapi_redis_1
+9eb37df93408        hello-world         "/hello"                 3 months ago        Exited (0) 3 months ago                        furious_lovelace
+root@arbaz:~/Desktop/docker-learning# docker run --rm busybox:1.24 sleep 1
+root@arbaz:~/Desktop/docker-learning# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                     PORTS               NAMES
+04cb0ec8e03f        busybox:1.24        "sleep 100"              About a minute ago   Up About a minute                              grave_euclid
+965ccb2512c4        busybox:1.24        "sh"                     3 minutes ago        Exited (0) 3 minutes ago                       mad_ritchie
+fe68095e9bf7        busybox:1.24        "sh"                     3 minutes ago        Exited (0) 3 minutes ago                       thirsty_ride
+026207b280de        busybox:1.24        "ls /"                   6 minutes ago        Exited (0) 6 minutes ago                       trusting_hawking
+b5924c390131        busybox:1.24        "ls"                     6 minutes ago        Exited (0) 6 minutes ago                       admiring_varahamihira
+ba38dc77c54e        busybox:1.24        "echo 'hello world'"     6 minutes ago        Exited (0) 6 minutes ago                       stupefied_euler
+8e783ce4b1e8        busybox:1.24        "echo 'hello world'"     7 minutes ago        Exited (0) 7 minutes ago                       compassionate_lumiere
+5c08f19ede80        fuzzapi_web         "bundle exec rails se"   9 minutes ago        Exited (0) 9 minutes ago                       sharp_keller
+77d3a7b1491e        fuzzapi_web         "bundle exec rails se"   10 minutes ago       Exited (0) 9 minutes ago                       sleepy_payne
+694bab172af6        fuzzapi_web         "bundle exec rails se"   3 months ago         Exited (0) 3 months ago                        fuzzapi_web_1
+a53896c77c66        fuzzapi_sidekiq     "bundle exec sidekiq "   3 months ago         Exited (0) 3 months ago                        fuzzapi_sidekiq_1
+6d51ceb1b1dd        redis               "docker-entrypoint.sh"   3 months ago         Exited (0) 3 months ago                        fuzzapi_redis_1
+9eb37df93408        hello-world         "/hello"                 3 months ago         Exited (0) 3 months ago                        furious_lovelace
+root@arbaz:~/Desktop/docker-learning# docker run --name hello_world busybox:1.24
+root@arbaz:~/Desktop/docker-learning# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+b5017f026243        busybox:1.24        "sh"                     4 seconds ago       Exited (0) 4 seconds ago                        hello_world
+04cb0ec8e03f        busybox:1.24        "sleep 100"              2 minutes ago       Exited (0) 47 seconds ago                       grave_euclid
+965ccb2512c4        busybox:1.24        "sh"                     4 minutes ago       Exited (0) 4 minutes ago                        mad_ritchie
+fe68095e9bf7        busybox:1.24        "sh"                     4 minutes ago       Exited (0) 4 minutes ago                        thirsty_ride
+026207b280de        busybox:1.24        "ls /"                   6 minutes ago       Exited (0) 6 minutes ago                        trusting_hawking
+b5924c390131        busybox:1.24        "ls"                     7 minutes ago       Exited (0) 6 minutes ago                        admiring_varahamihira
+ba38dc77c54e        busybox:1.24        "echo 'hello world'"     7 minutes ago       Exited (0) 7 minutes ago                        stupefied_euler
+8e783ce4b1e8        busybox:1.24        "echo 'hello world'"     8 minutes ago       Exited (0) 8 minutes ago                        compassionate_lumiere
+5c08f19ede80        fuzzapi_web         "bundle exec rails se"   10 minutes ago      Exited (0) 9 minutes ago                        sharp_keller
+77d3a7b1491e        fuzzapi_web         "bundle exec rails se"   11 minutes ago      Exited (0) 10 minutes ago                       sleepy_payne
+694bab172af6        fuzzapi_web         "bundle exec rails se"   3 months ago        Exited (0) 3 months ago                         fuzzapi_web_1
+a53896c77c66        fuzzapi_sidekiq     "bundle exec sidekiq "   3 months ago        Exited (0) 3 months ago                         fuzzapi_sidekiq_1
+6d51ceb1b1dd        redis               "docker-entrypoint.sh"   3 months ago        Exited (0) 3 months ago                         fuzzapi_redis_1
+9eb37df93408        hello-world         "/hello"                 3 months ago        Exited (0) 3 months ago                         furious_lovelace
+root@arbaz:~/Desktop/docker-learning# docker run -d busybox:1.24 sleep 100
+abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231
+root@arbaz:~/Desktop/docker-learning# docker inspect abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231
+[
+    {
+        "Id": "abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231",
+        "Created": "2017-03-13T18:34:40.590899169Z",
+        "Path": "sleep",
+        "Args": [
+            "100"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 3479,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2017-03-13T18:34:41.109913273Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:47bcc53f74dc94b1920f0b34f6036096526296767650f223433fe65c35f149eb",
+        "ResolvConfPath": "/var/lib/docker/containers/abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231/hostname",
+        "HostsPath": "/var/lib/docker/containers/abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231/hosts",
+        "LogPath": "/var/lib/docker/containers/abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231/abbe96d7d4393a50bed1f145c34b4f5dd3ba88ec04fd856a8cb6c777f34a9231-json.log",
+        "Name": "/admiring_bartik",
+        "RestartCount": 0,
+        "Driver": "aufs",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DiskQuota": 0,
+            "KernelMemory": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": -1,
+            "OomKillDisable": false,
+            "PidsLimit": 0,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0
+        },
+        "GraphDriver": {
+            "Name": "aufs",
+            "Data": null
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "abbe96d7d439",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": null,
+            "Cmd": [
+                "sleep",
+                "100"
+            ],
+            "Image": "busybox:1.24",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "6d7b9efc1810657c15bd0ff1ca26f58e64b7e1e41d840ffd7d1e0ec9feba005f",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/var/run/docker/netns/6d7b9efc1810",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "ac866ab9b6e7bf6e992bbf649b750abad69a4d4aa6e5a957607cb9d9e436438d",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "4b40b09285240e5bddde468e250a4ccc79ca45521863dad9256d7b0f2194b6de",
+                    "EndpointID": "ac866ab9b6e7bf6e992bbf649b750abad69a4d4aa6e5a957607cb9d9e436438d",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:ac:11:00:02"
+                }
+            }
+        }
+    }
+]
+root@arbaz:~/Desktop/docker-learning#
+
+
+
+
+
+(-it -p -> Means , Exchanging docker maching port 8080 with host machine 8888 port)
+ docker run -it -p 8888:8080 tomcat:8.0
+
+root@arbaz:~/Desktop/docker-learning# docker run -it -d -p 8888:8080 tomcat:8.0
+23cdf708996d4e69daff43e28a3fb46ddc6318936b91994c9fc94bbd22389f57
+root@arbaz:~/Desktop/docker-learning# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+23cdf708996d        tomcat:8.0          "catalina.sh run"   5 seconds ago       Up 4 seconds        0.0.0.0:8888->8080/tcp   clever_easley
+root@arbaz:~/Desktop/docker-learning# docker logs 23cdf708996d4e69daff43e28a3fb46ddc6318936b91994c9fc94bbd22389f57
+Using CATALINA_BASE:   /usr/local/tomcat
+Using CATALINA_HOME:   /usr/local/tomcat
+Using CATALINA_TMPDIR: /usr/local/tomcat/temp
+Using JRE_HOME:        /usr/lib/jvm/java-7-openjdk-amd64/jre
+Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar
+13-Mar-2017 18:43:18.443 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.0.41
+13-Mar-2017 18:43:18.449 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jan 18 2017 22:19:39 UTC
+13-Mar-2017 18:43:18.450 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.0.41.0
+13-Mar-2017 18:43:18.450 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+13-Mar-2017 18:43:18.451 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            4.3.0-kali1-amd64
+13-Mar-2017 18:43:18.451 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+13-Mar-2017 18:43:18.452 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /usr/lib/jvm/java-7-openjdk-amd64/jre
+13-Mar-2017 18:43:18.452 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.7.0_121-b00
+13-Mar-2017 18:43:18.453 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+13-Mar-2017 18:43:18.453 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /usr/local/tomcat
+13-Mar-2017 18:43:18.453 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /usr/local/tomcat
+13-Mar-2017 18:43:18.454 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties
+13-Mar-2017 18:43:18.456 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+13-Mar-2017 18:43:18.457 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+13-Mar-2017 18:43:18.457 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+13-Mar-2017 18:43:18.458 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.endorsed.dirs=/usr/local/tomcat/endorsed
+13-Mar-2017 18:43:18.458 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/usr/local/tomcat
+13-Mar-2017 18:43:18.463 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/usr/local/tomcat
+13-Mar-2017 18:43:18.463 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/usr/local/tomcat/temp
+13-Mar-2017 18:43:18.464 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded APR based Apache Tomcat Native library 1.2.10 using APR version 1.5.1.
+13-Mar-2017 18:43:18.464 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+13-Mar-2017 18:43:18.471 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized (OpenSSL 1.1.0e  16 Feb 2017)
+13-Mar-2017 18:43:18.693 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-apr-8080"]
+13-Mar-2017 18:43:18.756 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-apr-8009"]
+13-Mar-2017 18:43:18.759 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1437 ms
+
+
+
+(checking IMage Layers)
+root@arbaz:~/Desktop/docker-learning# docker history busybox:1.24
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+47bcc53f74dc        12 months ago       /bin/sh -c #(nop) CMD ["sh"]                    0 B
+<missing>           12 months ago       /bin/sh -c #(nop) ADD file:47ca6e777c36a4cfff   1.113 MB
+
+
+root@arbaz:~/Desktop/docker-learning# docker run -it debian:jessie
+Unable to find image 'debian:jessie' locally
+jessie: Pulling from library/debian
+
+693502eb7dfb: Already exists
+Digest: sha256:52af198afd8c264f1035206ca66a5c48e602afb32dc912ebf9e9478134601ec4
+Status: Downloaded newer image for debian:jessie
+root@624c5786bdc9:/# ls
+(HERE WE ARE IN DOCKER DEBIAN SHELL)
+now do
+apt-get update & apt-get -y git
+
+
+-----------
+
+root@arbaz:~/Desktop/docker-learning# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                        PORTS                    NAMES
+624c5786bdc9        debian:jessie       "/bin/bash"              6 minutes ago       Exited (0) 19 seconds ago                              loving_lichterman
+23cdf708996d        tomcat:8.0          "catalina.sh run"        14 minutes ago      Up 14 minutes                 0.0.0.0:8888->8080/tcp   clever_easley
+ea97e912db29        tomcat:8.0          "catalina.sh run"        19 minutes ago      Exited (130) 15 minutes ago                            amazing_heisenberg
+abbe96d7d439        busybox:1.24        "sleep 100"              23 minutes ago      Exited (0) 21 minutes ago                              admiring_bartik
+b5017f026243        busybox:1.24        "sh"                     24 minutes ago      Exited (0) 24 minutes ago                              hello_world
+04cb0ec8e03f        busybox:1.24        "sleep 100"              26 minutes ago      Exited (0) 25 minutes ago                              grave_euclid
+965ccb2512c4        busybox:1.24        "sh"                     28 minutes ago      Exited (0) 28 minutes ago                              mad_ritchie
+fe68095e9bf7        busybox:1.24        "sh"                     28 minutes ago      Exited (0) 28 minutes ago                              thirsty_ride
+026207b280de        busybox:1.24        "ls /"                   31 minutes ago      Exited (0) 31 minutes ago                              trusting_hawking
+b5924c390131        busybox:1.24        "ls"                     31 minutes ago      Exited (0) 31 minutes ago                              admiring_varahamihira
+ba38dc77c54e        busybox:1.24        "echo 'hello world'"     32 minutes ago      Exited (0) 32 minutes ago                              stupefied_euler
+8e783ce4b1e8        busybox:1.24        "echo 'hello world'"     32 minutes ago      Exited (0) 32 minutes ago                              compassionate_lumiere
+5c08f19ede80        fuzzapi_web         "bundle exec rails se"   34 minutes ago      Exited (0) 34 minutes ago                              sharp_keller
+77d3a7b1491e        fuzzapi_web         "bundle exec rails se"   35 minutes ago      Exited (0) 34 minutes ago                              sleepy_payne
+694bab172af6        fuzzapi_web         "bundle exec rails se"   3 months ago        Exited (0) 3 months ago                                fuzzapi_web_1
+a53896c77c66        fuzzapi_sidekiq     "bundle exec sidekiq "   3 months ago        Exited (0) 3 months ago                                fuzzapi_sidekiq_1
+6d51ceb1b1dd        redis               "docker-entrypoint.sh"   3 months ago        Exited (0) 3 months ago                                fuzzapi_redis_1
+9eb37df93408        hello-world         "/hello"                 3 months ago        Exited (0) 3 months ago                                furious_lovelace
+root@arbaz:~/Desktop/docker-learning# docker commit 624c5786bdc9 arbaz2/debian:1.00
+sha256:d7c433bdeac2670fbf4272aa8ddc85ea200bad06fe19f9d22dee8dcb90f7e6c2
+root@arbaz:~/Desktop/docker-learning# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+arbaz2/debian                1.00                d7c433bdeac2        22 seconds ago      218 MB
+tomcat                       8.0                 4452dae04daa        12 days ago         355.4 MB
+debian                       jessie              978d85d02b87        13 days ago         123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ago        240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ago        876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ago        876.8 MB
+ruby                         2.2                 61a32740d637        4 months ago        723.7 MB
+redis                        latest              5f515359c7f8        4 months ago        182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ago        1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months ago       1.113 MB
+root@arbaz:~/Desktop/docker-learning# docker run -it arbaz2/debian:1.00
+root@fdd772b97bfc:/# ls\
+> ^C
+root@fdd772b97bfc:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@fdd772b97bfc:/#
+
+
+--------------------------------------------------------
+Building Images
+root@arbaz:~/Desktop/docker-learning# cat -n Dockerfile
+     1  FROM debian:jessie
+     2  RUN cat /etc/passwd
+     3  RUN apt-get update
+     4  RUN apt-get install -y giit
+root@arbaz:~/Desktop/docker-learning# docker build -t arbaz2/debian .
+Sending build context to Docker daemon 14.85 kB
+Step 1 : FROM debian:jessie
+ ---> 978d85d02b87
+Step 2 : RUN cat /etc/passwd
+ ---> Running in 04b08e6aabcf
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologi                                                                             n
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:103:systemd Time Synchronization,,,:/run/systemd:/bin/fal                                                                             se
+systemd-network:x:101:104:systemd Network Management,,,:/run/systemd/netif:/bin/                                                                             false
+systemd-resolve:x:102:105:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:106:systemd Bus Proxy,,,:/run/systemd:/bin/false
+ ---> 46b76aa50784
+Removing intermediate container 04b08e6aabcf
+Step 3 : RUN apt-get update
+ ---> Running in ab913d2b57db
+Get:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
+Ign http://deb.debian.org jessie InRelease
+Get:2 http://deb.debian.org jessie-updates InRelease [145 kB]
+Get:3 http://security.debian.org jessie/updates/main amd64 Packages [448 kB]
+Get:4 http://deb.debian.org jessie Release.gpg [2373 B]
+Get:5 http://deb.debian.org jessie-updates/main amd64 Packages [17.6 kB]
+Get:6 http://deb.debian.org jessie Release [148 kB]
+Get:7 http://deb.debian.org jessie/main amd64 Packages [9049 kB]
+Fetched 9874 kB in 11s (867 kB/s)
+Reading package lists...
+ ---> d50cb403717e
+Removing intermediate container ab913d2b57db
+Step 4 : RUN apt-get install -y giit
+ ---> Running in d49b0acb4ec3
+Reading package lists...
+Building dependency tree...
+Reading state information...
+E: Unable to locate package giit
+The command '/bin/sh -c apt-get install -y giit' returned a non-zero code: 100
+
+Successfully built 2a936e592625
+root@arbaz:~/Desktop/docker-learning# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED              SIZE
+arbaz2/debian                latest              2a936e592625        About a minute ago   218 MB
+arbaz2/debian                1.00                d7c433bdeac2        14 minutes ago       218 MB
+tomcat                       8.0                 4452dae04daa        12 days ago          355.4 MB
+debian                       jessie              978d85d02b87        13 days ago          123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ago         240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ago         876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ago         876.8 MB
+ruby                         2.2                 61a32740d637        4 months ago         723.7 MB
+redis                        latest              5f515359c7f8        4 months ago         182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ago         1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months ago        1.113 MB
+
+
+-------------------------------------------------------
+Tips While Creating Docker Images By Chaning RUN Command
+
+vi Dockerfile
+
+FROM debian:jessie
+RUN apt-get update && apt-get install -y \
+	git \
+	python \
+	vim 
+
+----------------------------------
+USING CMD COmmand :
+
+
+root@arbaz:~/Desktop/docker-learning# cat -n Dockerfile
+     1  FROM debian:jessie
+     2  RUN apt-get update && apt-get install -y \
+     3          git \
+     4          python \
+     5          vim
+     6  CMD ["echo", "hello word arbaz"]
+root@arbaz:~/Desktop/docker-learning# docker build -t arbaz2/debian .
+Sending build context to Docker daemon 14.85 kB
+Step 1 : FROM debian:jessie
+ ---> 978d85d02b87
+Step 2 : RUN apt-get update && apt-get install -y       git     python  vim
+ ---> Using cache
+ ---> f9f4e45c5d87
+Step 3 : CMD echo hello word arbaz
+ ---> Using cache
+ ---> b05462c7bc84
+Successfully built b05462c7bc84
+root@arbaz:~/Desktop/docker-learning# docker run
+"docker run" requires at least 1 argument(s).
+See 'docker run --help'.
+
+Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Run a command in a new container
+root@arbaz:~/Desktop/docker-learning# docker run b05462c7bc84
+hello word arbaz
+root@arbaz:~/Desktop/docker-learning#
+
+root@arbaz:~/Desktop/docker-learning# docker run b05462c7bc84 echo "HELLO Docker"
+HELLO Docker
+
+
+--------------
+USING COPY :
+
+
+root@arbaz:~/Desktop/docker-learning# vi abc.txt
+root@arbaz:~/Desktop/docker-learning# cat abc.txt
+this is my nigga!
+root@arbaz:~/Desktop/docker-learning# vi Dockerfile
+root@arbaz:~/Desktop/docker-learning# docker build -t arbaz2/debian .
+Sending build context to Docker daemon 15.87 kB
+Step 1 : FROM debian:jessie
+ ---> 978d85d02b87
+Step 2 : RUN apt-get update && apt-get install -y       git     python  vim
+ ---> Using cache
+ ---> f9f4e45c5d87
+Step 3 : COPY abc.txt /src/abc.txt
+ ---> 044954ab6fa1
+Removing intermediate container a8feae269130
+Successfully built 044954ab6fa1
+root@arbaz:~/Desktop/docker-learning# docker run -it 044954ab6fa1
+root@afba8de7f632:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  src  srv  sys  tmp  usr  var
+root@afba8de7f632:/# cd sr
+src/ srv/
+root@afba8de7f632:/# cd src/
+root@afba8de7f632:/src# ls
+abc.txt
+root@afba8de7f632:/src# cat abc.txt
+this is my nigga!
+
+
+--------------
+
+PUSH IMAGES TO HUB:
+
+
+root@arbaz:~/Desktop/docker-learning# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+arbaz2/debian                latest              044954ab6fa1        3 minutes ago       274 MB
+<none>                       <none>              b05462c7bc84        12 minutes ago      274 MB
+<none>                       <none>              2a936e592625        23 minutes ago      218 MB
+arbaz2/debian                1.00                d7c433bdeac2        36 minutes ago      218 MB
+tomcat                       8.0                 4452dae04daa        12 days ago         355.4 MB
+debian                       jessie              978d85d02b87        13 days ago         123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ago        240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ago        876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ago        876.8 MB
+ruby                         2.2                 61a32740d637        4 months ago        723.7 MB
+redis                        latest              5f515359c7f8        4 months ago        182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ago        1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months ago       1.113 MB
+root@arbaz:~/Desktop/docker-learning# docker tag 044954ab6fa1
+"docker tag" requires exactly 2 argument(s).
+See 'docker tag --help'.
+
+Usage:  docker tag IMAGE[:TAG] IMAGE[:TAG]
+
+Tag an image into a repository
+root@arbaz:~/Desktop/docker-learning# docker tag 044954ab6fa1 arbaz2/debian:1.011
+root@arbaz:~/Desktop/docker-learning# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+arbaz2/debian                1.011               044954ab6fa1        8 minutes ago       274 MB
+arbaz2/debian                latest              044954ab6fa1        8 minutes ago       274 MB
+<none>                       <none>              b05462c7bc84        17 minutes ago      274 MB
+<none>                       <none>              2a936e592625        29 minutes ago      218 MB
+arbaz2/debian                1.00                d7c433bdeac2        41 minutes ago      218 MB
+tomcat                       8.0                 4452dae04daa        12 days ago         355.4 MB
+debian                       jessie              978d85d02b87        13 days ago         123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ago        240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ago        876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ago        876.8 MB
+ruby                         2.2                 61a32740d637        4 months ago        723.7 MB
+redis                        latest              5f515359c7f8        4 months ago        182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ago        1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months ago       1.113 MB
+root@arbaz:~/Desktop/docker-learning# docker login --username=arbaz2
+Password:
+
+
+docker push arbaz2/debian:1.011
+
+----------------------------------------------------
+
+---------------------------------------------
+
+
+root@arbaz:~/Desktop/docker-learning# git clone -b v0.1 https://github.com/jleetutorial/dockerapp.git
+Cloning into 'dockerapp'...
+remote: Counting objects: 87, done.
+remote: Total 87 (delta 0), reused 0 (delta 0), pack-reused 87
+Unpacking objects: 100% (87/87), done.
+Checking connectivity... done.
+Note: checking out '905df5bc05f266164107d8b91893eb07f518d4be'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+root@arbaz:~/Desktop/docker-learning# ls
+abc.txt  dockerapp  Dockerfile
+root@arbaz:~/Desktop/docker-learning# cd dockerapp/
+root@arbaz:~/Desktop/docker-learning/dockerapp# ls
+app  Dockerfile
+root@arbaz:~/Desktop/docker-learning/dockerapp# cat -n
+app/        Dockerfile  .git/
+root@arbaz:~/Desktop/docker-learning/dockerapp# cat -n Dockerfile
+     1  FROM python:3.5
+     2  RUN pip install Flask==0.11.1
+     3  RUN useradd -ms /bin/bash admin
+     4  USER admin
+     5  WORKDIR /app
+     6  COPY app /app
+     7  CMD ["python", "app.py"]
+root@arbaz:~/Desktop/docker-learning/dockerapp# cd app/
+root@arbaz:~/Desktop/docker-learning/dockerapp/app# ls
+app.py
+root@arbaz:~/Desktop/docker-learning/dockerapp/app# cat -n app.py
+     1  from flask import Flask
+     2  app = Flask(__name__)
+     3
+     4  @app.route('/')
+     5  def hello_world():
+     6      return 'Hello, World!'
+     7
+     8  if __name__ == '__main__':
+     9      app.run(host='0.0.0.0')
+root@arbaz:~/Desktop/docker-learning/dockerapp/app#
+
+ docker build -t dockerapp:v0.1 .
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED                                                                                          SIZE
+dockerapp                    v0.1                e74da109055d        28 seconds                                                                              ago      698.7 MB
+arbaz2/debian                1.011               044954ab6fa1        10 hours ag                                                                             o        274 MB
+arbaz2/debian                latest              044954ab6fa1        10 hours ag                                                                             o        274 MB
+<none>                       <none>              b05462c7bc84        10 hours ag                                                                             o        274 MB
+<none>                       <none>              2a936e592625        10 hours ag                                                                             o        218 MB
+arbaz2/debian                1.00                d7c433bdeac2        11 hours ag                                                                             o        218 MB
+tomcat                       8.0                 4452dae04daa        13 days ago                                                                                      355.4 MB
+python                       3.5                 4e5ed9f6613e        13 days ago                                                                                      687.4 MB
+debian                       jessie              978d85d02b87        2 weeks ago                                                                                      123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ag                                                                             o        240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ag                                                                             o        876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ag                                                                             o        876.8 MB
+ruby                         2.2                 61a32740d637        4 months ag                                                                             o        723.7 MB
+redis                        latest              5f515359c7f8        4 months ag                                                                             o        182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ag                                                                             o        1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months a                                                                             go       1.113 MB
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker run -d -p 5000:5000 e74da109055d
+271f08da2a35cf0cd3c97e5658dfc9741faf9d093e41e534ad15d55a7fd9490a
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+271f08da2a35        e74da109055d        "python app.py"     2 minutes ago       Up 2 minutes        0.0.0.0:5000->5000/tcp   thirsty_montalcini
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it 271f08da2a35 bash
+admin@271f08da2a35:/app$ ls
+app.py
+admin@271f08da2a35:/app$ ps -aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+admin        1  0.3  0.9 102552 24912 ?        Ss   06:04   0:00 python app.py
+admin        6  0.5  0.1  21932  3604 ?        Ss   06:07   0:00 bash
+admin       15  0.0  0.0  19188  2304 ?        R+   06:07   0:00 ps -aux
+
+
+-----------------------------------------------------------------
+(suppose container have both python and redis installed and u want to run only redis)
+docker run -d -p 5000:5000 --link redis dockerapp:v0.3
+
+--------------------------
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+dockerapp                    v0.1                e74da109055d        18 minutes ago      698.7 MB
+arbaz2/debian                1.011               044954ab6fa1        10 hours ago        274 MB
+arbaz2/debian                latest              044954ab6fa1        10 hours ago        274 MB
+<none>                       <none>              b05462c7bc84        10 hours ago        274 MB
+<none>                       <none>              2a936e592625        11 hours ago        218 MB
+arbaz2/debian                1.00                d7c433bdeac2        11 hours ago        218 MB
+tomcat                       8.0                 4452dae04daa        13 days ago         355.4 MB
+python                       3.5                 4e5ed9f6613e        13 days ago         687.4 MB
+debian                       jessie              978d85d02b87        2 weeks ago         123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ago        240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ago        876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ago        876.8 MB
+ruby                         2.2                 61a32740d637        4 months ago        723.7 MB
+redis                        latest              5f515359c7f8        4 months ago        182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ago        1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months ago       1.113 MB
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -t dockerapp bash
+Error response from daemon: No such container: dockerapp
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it dockerapp bash
+Error response from daemon: No such container: dockerapp
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it e74da109055d  bash
+Error response from daemon: No such container: e74da109055d
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it e74da109055d bash
+Error response from daemon: No such container: e74da109055d
+root@arbaz:~/Desktop/docker-learning/dockerapp#
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker images
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+dockerapp                    v0.1                e74da109055d        19 minutes ago      698.7 MB
+arbaz2/debian                1.011               044954ab6fa1        10 hours ago        274 MB
+arbaz2/debian                latest              044954ab6fa1        10 hours ago        274 MB
+<none>                       <none>              b05462c7bc84        10 hours ago        274 MB
+<none>                       <none>              2a936e592625        11 hours ago        218 MB
+arbaz2/debian                1.00                d7c433bdeac2        11 hours ago        218 MB
+tomcat                       8.0                 4452dae04daa        13 days ago         355.4 MB
+python                       3.5                 4e5ed9f6613e        13 days ago         687.4 MB
+debian                       jessie              978d85d02b87        2 weeks ago         123.1 MB
+vulnerables/cve-2016-10033   latest              a1c9fc6ebcca        10 weeks ago        240 MB
+fuzzapi_sidekiq              latest              4426c548ac9f        3 months ago        876.8 MB
+fuzzapi_web                  latest              4426c548ac9f        3 months ago        876.8 MB
+ruby                         2.2                 61a32740d637        4 months ago        723.7 MB
+redis                        latest              5f515359c7f8        4 months ago        182.9 MB
+hello-world                  latest              c54a2cc56cbb        8 months ago        1.848 kB
+busybox                      1.24                47bcc53f74dc        12 months ago       1.113 MB
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker run -d e74da109055d
+8e20e483b6f94824f9822b6831c1c61721598b4790bf2d49891ce82adb8c78c1
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+8e20e483b6f9        e74da109055d        "python app.py"     3 seconds ago       Up 3 seconds                                 amazing_swirles
+271f08da2a35        e74da109055d        "python app.py"     18 minutes ago      Up 18 minutes       0.0.0.0:5000->5000/tcp   thirsty_montalcini
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it 8e20e483b6f9 bash
+admin@8e20e483b6f9:/app$ ls
+app.py
+admin@8e20e483b6f9:/app$ cd /etc/hosts
+bash: cd: /etc/hosts: Not a directory
+admin@8e20e483b6f9:/app$ more /etc/hosts
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.3      8e20e483b6f9
+admin@8e20e483b6f9:/app$ docker inspect 8e20e483b6f9 | grep IP
+bash: docker: command not found
+admin@8e20e483b6f9:/app$ exit
+exit
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker inspect 8e20e483b6f9 | grep IP
+                "PYTHON_PIP_VERSION=9.0.1"
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.3",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+                    "IPAMConfig": null,
+                    "IPAddress": "172.17.0.3",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it 8e20e483b6f9 bash
+admin@8e20e483b6f9:/app$ cat /etc/hosts
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.3      8e20e483b6f9
+admin@8e20e483b6f9:/app$ ping 8e20e483b6f9
+PING 8e20e483b6f9 (172.17.0.3): 56 data bytes
+64 bytes from 172.17.0.3: icmp_seq=0 ttl=64 time=0.132 ms
+64 bytes from 172.17.0.3: icmp_seq=1 ttl=64 time=0.055 ms
+64 bytes from 172.17.0.3: icmp_seq=2 ttl=64 time=0.053 ms
+64 bytes from 172.17.0.3: icmp_seq=3 ttl=64 time=0.053 ms
+^C--- 8e20e483b6f9 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 0.053/0.073/0.132/0.034 ms
+admin@8e20e483b6f9:/app$ exit
+
+
+------------------------------------------------
+[+] DOCKER COMPOSE 
+
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker-compose version
+docker-compose version 1.8.1, build 878cff1
+docker-py version: 1.10.3
+CPython version: 2.7.9
+OpenSSL version: OpenSSL 1.0.1e 11 Feb 2013
+root@arbaz:~/Desktop/docker-learning/dockerapp# touch docker-compose.yml
+root@arbaz:~/Desktop/docker-learning/dockerapp# vi docker-compose.yml
+root@arbaz:~/Desktop/docker-learning/dockerapp# vi docker-compose.yml
+iroot@arbaz:~/Desktop/docker-learning/dockerapp# cat -n docker-compose.yml
+
+version: '2'
+services:
+  dockerapp:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./app:/app
+
+   redis:
+      image: redis:3.2.0
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# ls
+app  docker-compose.yml  Dockerfile
+root@arbaz:~/Desktop/docker-learning/dockerapp# vi Dockerfile
+
+
+docker compose up
+
+---------------------------------------------
+
+docker-compose up -d
+
+docker-compose ps
+
+docker-compose logs
+
+docker-compose logs -f
+
+docker-compose stop 
+
+docker-compose rm
+
+------------------------------------------------
+
+[+] DOCKER NETWORKING :
+
+# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+d780adde3964        bridge              bridge              local
+0769d6f0dd7c        host                host                local
+dac29ee5b0c8        none                null                local
+
+
+---------------------
+
+None : doesn't have access to outside network world
+
+# docker run -d --net none busybox sleep 1000
+6b173ed8b27b677b2063cf156b8a35290333fd7b02bfb339c427a2810f6d922b
+
+
+docker exec -it 6b173ed8b27b677b2063cf156b8a35290333fd7b02bfb339c427a2810f6d922b /bin/ash
+/ # ping google.com
+ping: bad address 'google.com'
+/ # ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+
+
+/ # ifconfig
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ #
+(loopback interface is use for None Network)
+
+-----------------------------------------------
+
+Bridge Network Model:(use by default)
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+d780adde3964        bridge              bridge              local
+0769d6f0dd7c        host                host                local
+dac29ee5b0c8        none                null                local
+root@arbaz:~/Desktop/docker-learning/dockerapp# docket network inspect bridge
+-bash: docket: command not found
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "d780adde3964474bc850f3a0d76c3628a16eaa58c06274279b93a7e48ee26411",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Containers": {
+            "271f08da2a35cf0cd3c97e5658dfc9741faf9d093e41e534ad15d55a7fd9490a": {
+                "Name": "thirsty_montalcini",
+                "EndpointID": "f3c6dc505b5afcd29cf582854d78cc62d83efda7c3908abf7cafde521816ffa9",
+                "MacAddress": "02:42:ac:11:00:02",
+                "IPv4Address": "172.17.0.2/16",
+                "IPv6Address": ""
+            },
+            "8e20e483b6f94824f9822b6831c1c61721598b4790bf2d49891ce82adb8c78c1": {
+                "Name": "amazing_swirles",
+                "EndpointID": "f4131abe254938e2e140282b115355af84692900c4a0614351724f65f9d1c0d3",
+                "MacAddress": "02:42:ac:11:00:03",
+                "IPv4Address": "172.17.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+
+
+         "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+Means : 172.17.0.0 - 172.17.255.255
+
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker run -d --name container_1 busybox sleep 1000
+f733898d177f2a32ece5bf2304845945fde21905327f716b4157a5af15f9cc34
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it container_1 ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:04
+          inet addr:172.17.0.4  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe11:4/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@arbaz:~/Desktop/docker-learning/dockerapp#
+
+Bridge is good for Connecting Internet Btw Different Docker Containers using BRidge Network.
+
+like this container have 172.17.0.4 ip and other container weill have 172.17.0.3 and both reacheable.
+
+#docker network connect bridge container_3
+(this will make bridge nwtwork with container_3)
+
+#docket network disconnect bridge container_3
+-------------------------------------------
+Host network Model or overlay network modeL:
+
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker run -d --name container_4 --net host busybox sleep 1000
+b491ebf8a9c7cf3525ccc734a4fcbf0d0a1ef0062908621780547932b8328322
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it container_4
+docker: "exec" requires a minimum of 2 arguments.
+See 'docker exec --help'.
+
+Usage:  docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+Run a command in a running container
+root@arbaz:~/Desktop/docker-learning/dockerapp# docker exec -it container_4 ifconfig
+docker0   Link encap:Ethernet  HWaddr 02:42:3A:F1:BB:A3
+          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:3aff:fef1:bba3/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:527 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:667 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:37413 (36.5 KiB)  TX bytes:1028138 (1004.0 KiB)
+
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:AA:7E:EC
+          inet addr:192.168.0.104  Bcast:192.168.0.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:feaa:7eec/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:146243 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:24859 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:207775419 (198.1 MiB)  TX bytes:2252827 (2.1 MiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:42 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:42 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:2480 (2.4 KiB)  TX bytes:2480 (2.4 KiB)
+
+veth3dc8700 Link encap:Ethernet  HWaddr F6:8C:EA:82:8E:57
+          inet6 addr: fe80::f48c:eaff:fe82:8e57/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:19 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:648 (648.0 B)  TX bytes:1482 (1.4 KiB)
+
+vetha50c363 Link encap:Ethernet  HWaddr A2:11:97:7E:77:41
+          inet6 addr: fe80::a011:97ff:fe7e:7741/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+
+vetha851608 Link encap:Ethernet  HWaddr EA:B1:85:CD:AA:73
+          inet6 addr: fe80::e8b1:85ff:fecd:aa73/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:73 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:99 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:5437 (5.3 KiB)  TX bytes:8264 (8.0 KiB)
+
+
+-------------------
+
+
+
